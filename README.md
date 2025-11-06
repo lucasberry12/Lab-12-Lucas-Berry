@@ -19,6 +19,4 @@ As I said before, there will be two databases in use for this project. My idea i
 
 ## Project Wireframe
 
-TODO: Replace the wireframe below with you own design.
-
-![wireframe](wireframe-example.png)
+https://app.moqups.com/zrSRiE5nRtxsT0o01ACFnvY2IGr9iWGk/view/page/ad64222d5?fit_width=1
