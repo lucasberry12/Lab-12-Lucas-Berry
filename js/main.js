@@ -10,10 +10,35 @@ async function loadSearch() {
     );
     const data = await response.json();
 
+    data.sort((a, b) => a.name.localeCompare(b.name));
+
     data.map((item) => {
       const div = document.createElement("div");
-      div.innerHTML = `${item.name} <br /> ${item.price}`;
+      div.className = "grocery-item";
+      div.innerHTML = `<div>${item.name} <br /> ${item.price}</div><div class="add-to-cart"><input type="number" min="1" value="1"></input><button data-id="${item.id}">Add to Cart</button></div>`;
       searchResults.appendChild(div);
+
+      const addButtons = document.querySelectorAll("button");
+      addButtons.forEach((button) => {
+        button.addEventListener("click", async () => {
+          const id = button.dataset.id;
+          const td = button.parentElement;
+          const input = td.querySelector("input[type=number]");
+          const quantity = Number(input.value);
+          await fetch(
+            `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+            {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                num_in_cart: quantity,
+              }),
+            }
+          );
+        });
+      });
     });
   } catch (error) {
     console.error("Failed to fetch items:", error);
