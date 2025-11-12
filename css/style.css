@@ -1,4 +1,44 @@
-h1{
-  border-color: #d3e644;
-  border-style: dashed;
+header {
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  display: flex;
+  justify-content: space-evenly;
+  list-style-type: none;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}
+
+table {
+  margin: 0 auto;
+  border: 1px solid black;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+  }
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  div {
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px;
+  }
+}
+
+input[type="number"] {
+  width: 30px;
+  margin-right: 10px;
 }

@@ -1,18 +1,116 @@
-window.onload = loaded;
+const navOptions = document.querySelectorAll("nav ul li a");
+const main = document.querySelector("main");
 
-/**
- * Simple Function that will be run when the browser is finished loading.
- */
-function loaded() {
-    // Assign to a variable so we can set a breakpoint in the debugger!
-    const hello = sayHello();
-    console.log(hello);
+async function loadSearch() {
+  try {
+    const searchResults = document.querySelector(".results");
+    searchResults.innerHTML = "";
+    const response = await fetch(
+      "https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items"
+    );
+    const data = await response.json();
+
+    data.map((item) => {
+      const div = document.createElement("div");
+      div.innerHTML = `${item.name} <br /> ${item.price}`;
+      searchResults.appendChild(div);
+    });
+  } catch (error) {
+    console.error("Failed to fetch items:", error);
+  }
 }
 
-/**
- * This function returns the string 'hello'
- * @return {string} the string hello
- */
-export function sayHello() {
-    return 'hello';
+async function loadFavorites() {
+  try {
+    const tbody = document.querySelector("tbody");
+    tbody.innerHTML = "";
+    const response = await fetch(
+      "https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items"
+    );
+    const data = await response.json();
+
+    data.sort((a, b) => a.name.localeCompare(b.name));
+    const favorites = data.filter((item) => item.favorite);
+
+    favorites.map((item) => {
+      tbody.innerHTML += `<tr><td>${item.name}</td><td>${item.price}</td><td><input type="number" min="1" value="1"></input><button>Add to Cart</button></td><td><input type="checkbox" checked></td></tr>`;
+    });
+  } catch (error) {
+    console.error("Failed to fetch items:", error);
+  }
 }
+
+async function loadMain() {
+  try {
+    const tbody = document.querySelector("tbody");
+    tbody.innerHTML = "";
+    const response = await fetch(
+      "https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items"
+    );
+    const data = await response.json();
+
+    data.sort((a, b) => a.name.localeCompare(b.name));
+    const itemsInCart = data.filter((item) => item.num_in_cart > 0);
+
+    itemsInCart.map((item) => {
+      tbody.innerHTML += `<tr><td>${item.name}</td><td>${
+        item.num_in_cart
+      }</td><td>${
+        item.price * item.num_in_cart
+      }</td><td><input type="checkbox" data-id="${item.id}" ${
+        item.checked ? "checked" : ""
+      }></td><td><button>Remove</button></td></tr>`;
+    });
+
+    const checkboxes = document.querySelectorAll("input[type=checkbox]");
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", async () => {
+        const id = checkbox.dataset.id;
+        await fetch(
+          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              checked: checkbox.checked,
+            }),
+          }
+        );
+      });
+    });
+  } catch (error) {
+    console.error("Failed to fetch items:", error);
+  }
+}
+
+async function loadPage(page) {
+  await fetch(`html/${page}.html`)
+    .then((response) => response.text())
+    .then((html) => {
+      main.innerHTML = html;
+
+      if (page === "main") {
+        loadMain();
+      }
+
+      if (page === "search") {
+        loadSearch();
+      }
+
+      if (page === "favorites") {
+        loadFavorites();
+      }
+    });
+}
+
+navOptions.forEach((option) => {
+  option.addEventListener("click", (e) => {
+    e.preventDefault();
+    const page = option.dataset.page;
+    loadPage(page);
+  });
+});
+
+loadPage("main");
