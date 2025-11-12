@@ -33,7 +33,48 @@ async function loadFavorites() {
     const favorites = data.filter((item) => item.favorite);
 
     favorites.map((item) => {
-      tbody.innerHTML += `<tr><td>${item.name}</td><td>${item.price}</td><td><input type="number" min="1" value="1"></input><button>Add to Cart</button></td><td><input type="checkbox" checked></td></tr>`;
+      tbody.innerHTML += `<tr><td>${item.name}</td><td>${item.price}</td><td><input type="number" min="1" value="1"></input><button data-id="${item.id}">Add to Cart</button></td><td><input type="checkbox" data-id="${item.id}" checked></td></tr>`;
+    });
+
+    const addButtons = document.querySelectorAll("button");
+    addButtons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const id = button.dataset.id;
+        const td = button.parentElement;
+        const input = td.querySelector("input[type=number]");
+        const quantity = Number(input.value);
+        await fetch(
+          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              num_in_cart: quantity,
+            }),
+          }
+        );
+      });
+    });
+
+    const checkboxes = document.querySelectorAll("input[type=checkbox]");
+    checkboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", async () => {
+        const id = checkbox.dataset.id;
+        await fetch(
+          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              favorite: checkbox.checked,
+            }),
+          }
+        );
+      });
     });
   } catch (error) {
     console.error("Failed to fetch items:", error);
@@ -59,7 +100,7 @@ async function loadMain() {
         item.price * item.num_in_cart
       }</td><td><input type="checkbox" data-id="${item.id}" ${
         item.checked ? "checked" : ""
-      }></td><td><button>Remove</button></td></tr>`;
+      }></td><td><button data-id="${item.id}">Remove</button></td></tr>`;
     });
 
     const checkboxes = document.querySelectorAll("input[type=checkbox]");
@@ -75,6 +116,25 @@ async function loadMain() {
             },
             body: JSON.stringify({
               checked: checkbox.checked,
+            }),
+          }
+        );
+      });
+    });
+
+    const removeButtons = document.querySelectorAll("button");
+    removeButtons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const id = button.dataset.id;
+        await fetch(
+          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              num_in_cart: 0,
             }),
           }
         );
