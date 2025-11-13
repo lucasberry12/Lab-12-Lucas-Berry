@@ -167,6 +167,7 @@ async function loadFavorites() {
 async function loadMain() {
   try {
     const tbody = document.querySelector("tbody");
+    const mainContent = document.querySelector(".main-content");
     tbody.innerHTML = "";
     const response = await fetch(
       "https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items"
@@ -189,6 +190,11 @@ async function loadMain() {
         item.id
       }">Remove</button></td></tr>`;
     });
+
+    mainContent.innerHTML += `<div class="total-cost">Total Cost: ${itemsInCart.reduce(
+      (acc, item) => acc + item.price * item.num_in_cart,
+      0
+    )}</div>`;
 
     const favoriteCheck = document.querySelectorAll(".favorite");
     favoriteCheck.forEach((checkbox) => {
