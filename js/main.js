@@ -18,11 +18,13 @@ async function loadSearch() {
       div.className = "grocery-item";
       div.innerHTML = `<div>${item.name} <br /> $${
         item.price
-      }</div><div class="add-to-cart"><input type="checkbox" data-id="${
+      }</div><div class="add-to-cart"><input id="favorite-${
         item.id
-      }" ${
+      }" class ="favorite" type="checkbox" data-id="${item.id}" ${
         item.favorite ? "checked" : ""
-      }></div><input type="number" min="1" value="1"></input><button data-id="${
+      }><label for="favorite-${
+        item.id
+      }" class="heart-label"></label></div><input type="number" min="1" value="1"></input><button data-id="${
         item.id
       }">Add to Cart</button></div>`;
       searchResults.appendChild(div);
@@ -117,7 +119,7 @@ async function loadFavorites() {
     const favorites = data.filter((item) => item.favorite);
 
     favorites.map((item) => {
-      tbody.innerHTML += `<tr><td>${item.name}</td><td>$${item.price}</td><td><input type="number" min="1" value="1"></input><button data-id="${item.id}">Add to Cart</button></td><td><input type="checkbox" data-id="${item.id}" checked></td></tr>`;
+      tbody.innerHTML += `<tr><td>${item.name}</td><td>$${item.price}</td><td><input type="number" min="1" value="1"></input><button data-id="${item.id}">Add to Cart</button></td><td><input id="favorite-${item.id}" class ="favorite" type="checkbox" data-id="${item.id}" checked><label for="favorite-${item.id}" class="heart-label"></label></td></tr>`;
     });
 
     const addButtons = document.querySelectorAll("button");
@@ -180,11 +182,13 @@ async function loadMain() {
     const itemsInCart = data.filter((item) => item.num_in_cart > 0);
 
     itemsInCart.map((item) => {
-      tbody.innerHTML += `<tr><td><input class ="favorite" type="checkbox" data-id="${
+      tbody.innerHTML += `<tr><td><input id="favorite-${
         item.id
-      }" ${item.favorite ? "checked" : ""}></td><td>${item.name}</td><td>${
-        item.num_in_cart
-      }</td><td>$${
+      }" class ="favorite" type="checkbox" data-id="${item.id}" ${
+        item.favorite ? "checked" : ""
+      }><label for="favorite-${item.id}" class="heart-label"></label></td><td>${
+        item.name
+      }</td><td>${item.num_in_cart}</td><td>$${
         item.price * item.num_in_cart
       }</td><td><input class = "check-off" type="checkbox" data-id="${
         item.id

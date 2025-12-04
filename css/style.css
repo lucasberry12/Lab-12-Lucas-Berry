@@ -78,6 +78,26 @@ ul {
   }
 }
 
+.favorite {
+  display: none;
+}
+
+.heart-label {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  background-image: url("../img/heart-outline.svg");
+}
+
+.favorite:checked + .heart-label {
+  background-image: url("../img/heart-filled.svg");
+  transform: scale(1.2);
+  transition: transform 0.2s;
+}
+
 .results {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -99,8 +119,8 @@ ul {
       margin-left: 10px;
       align-items: center;
 
-      input[type="checkbox"] {
-        margin-right: 15px;
+      .heart-label {
+        margin-right: 10px;
       }
     }
   }
