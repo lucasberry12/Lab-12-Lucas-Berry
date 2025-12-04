@@ -192,9 +192,11 @@ async function loadMain() {
         item.price * item.num_in_cart
       }</td><td><input class = "check-off" type="checkbox" data-id="${
         item.id
-      }" ${item.checked ? "checked" : ""}></td><td><button data-id="${
+      }" ${
+        item.checked ? "checked" : ""
+      }></td><td><button class="delete-button" data-id="${
         item.id
-      }">Remove</button></td></tr>`;
+      }"></button></td></tr>`;
     });
 
     mainContent.innerHTML += `<div class="total-cost">Total Cost: ${itemsInCart.reduce(

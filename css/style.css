@@ -69,6 +69,17 @@ ul {
       padding: 5px;
       text-align: center;
     }
+
+    .delete-button {
+      background-image: url("../img/delete.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      border: none;
+      width: 35px;
+      height: 35px;
+      cursor: pointer;
+      background-color: transparent;
+    }
   }
 
   .total-cost {
