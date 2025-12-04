@@ -1,5 +1,6 @@
 const navOptions = document.querySelectorAll("nav ul li a");
 const main = document.querySelector("main");
+let currentPage = "main";
 
 async function loadSearch() {
   try {
@@ -157,6 +158,7 @@ async function loadFavorites() {
             }),
           }
         );
+        loadPage(currentPage);
       });
     });
   } catch (error) {
@@ -250,6 +252,7 @@ async function loadMain() {
             }),
           }
         );
+        loadPage(currentPage);
       });
     });
   } catch (error) {
@@ -258,6 +261,8 @@ async function loadMain() {
 }
 
 async function loadPage(page) {
+  currentPage = page;
+
   await fetch(`html/${page}.html`)
     .then((response) => response.text())
     .then((html) => {
