@@ -70,6 +70,12 @@ ul {
       text-align: center;
     }
 
+    .add-to-cart-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .check-off {
       display: none;
     }
@@ -137,6 +143,21 @@ ul {
   background-color: transparent;
 }
 
+td .delete-button {
+  background-image: url("../img/remove-from-cart.svg");
+}
+
+.add-to-cart-button {
+  background-image: url("../img/add-to-cart.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-color: transparent;
+}
+
 .results {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -165,17 +186,6 @@ ul {
 
       .delete-button {
         margin-right: 10px;
-      }
-
-      .add-to-cart-button {
-        background-image: url("../img/add-to-cart.svg");
-        background-size: contain;
-        background-repeat: no-repeat;
-        border: none;
-        width: 35px;
-        height: 35px;
-        cursor: pointer;
-        background-color: transparent;
       }
     }
   }

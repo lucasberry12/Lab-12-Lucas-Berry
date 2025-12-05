@@ -34,29 +34,7 @@ async function loadSearch() {
 
     updateFavorites();
     updateDelete(currentPage);
-
-    const addButtons = document.querySelectorAll(".add-to-cart-button");
-    addButtons.forEach((button) => {
-      button.addEventListener("click", async () => {
-        const id = button.dataset.id;
-        const td = button.parentElement;
-        const input = td.querySelector("input[type=number]");
-        const quantity = Number(input.value);
-        await fetch(
-          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              num_in_cart: quantity,
-            }),
-          }
-        );
-        loadPage(currentPage);
-      });
-    });
+    updateCart();
 
     const addItemToDatabase = document.querySelector("#add-item");
     const itemName = document.querySelector("#item-name");
@@ -80,13 +58,14 @@ async function loadSearch() {
               .split(" ")
               .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
               .join(" "),
-            price: itemPrice.value,
+            price: Number(itemPrice.value).toFixed(2),
             num_in_cart: 0,
             favorite: false,
             checked: false,
           }),
         }
       );
+      loadPage(currentPage);
     });
   } catch (error) {
     console.error("Failed to fetch items:", error);
@@ -106,31 +85,10 @@ async function loadFavorites() {
     const favorites = data.filter((item) => item.favorite);
 
     favorites.map((item) => {
-      tbody.innerHTML += `<tr><td>${item.name}</td><td>$${item.price}</td><td><input type="number" min="1" value="1"></input><button data-id="${item.id}">Add to Cart</button></td><td><input id="favorite-${item.id}" class ="favorite" type="checkbox" data-id="${item.id}" checked><label for="favorite-${item.id}" class="heart-label"></label></td></tr>`;
+      tbody.innerHTML += `<tr><td>${item.name}</td><td>$${item.price}</td><td><div class="add-to-cart-container"><input type="number" min="1" value="1"></input><button class="add-to-cart-button" data-id="${item.id}"></button></div></td><td><input id="favorite-${item.id}" class ="favorite" type="checkbox" data-id="${item.id}" checked><label for="favorite-${item.id}" class="heart-label"></label></td></tr>`;
     });
 
-    const addButtons = document.querySelectorAll("button");
-    addButtons.forEach((button) => {
-      button.addEventListener("click", async () => {
-        const id = button.dataset.id;
-        const td = button.parentElement;
-        const input = td.querySelector("input[type=number]");
-        const quantity = Number(input.value);
-        await fetch(
-          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              num_in_cart: quantity,
-            }),
-          }
-        );
-      });
-    });
-
+    updateCart();
     updateFavorites();
   } catch (error) {
     console.error("Failed to fetch items:", error);
@@ -157,9 +115,9 @@ async function loadMain() {
         item.favorite ? "checked" : ""
       }><label for="favorite-${item.id}" class="heart-label"></label></td><td>${
         item.name
-      }</td><td>${item.num_in_cart}</td><td>$${
+      }</td><td>${item.num_in_cart}</td><td>$${(
         item.price * item.num_in_cart
-      }</td><td><input id="check-off-${
+      ).toFixed(2)}</td><td><input id="check-off-${
         item.id
       }" class = "check-off" type="checkbox" data-id="${item.id}" ${
         item.checked ? "checked" : ""
@@ -257,6 +215,30 @@ async function updateDelete(page) {
         );
       }
       loadPage(currentPage);
+    });
+  });
+}
+
+async function updateCart() {
+  const addButtons = document.querySelectorAll(".add-to-cart-button");
+  addButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const id = button.dataset.id;
+      const td = button.parentElement;
+      const input = td.querySelector("input[type=number]");
+      const quantity = Number(input.value);
+      await fetch(
+        `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            num_in_cart: quantity,
+          }),
+        }
+      );
     });
   });
 }
