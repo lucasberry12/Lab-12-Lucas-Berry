@@ -36,6 +36,20 @@ async function loadSearch() {
     updateDelete(currentPage);
     updateCart();
 
+    const dropdownButton = document.querySelector(".add-items-button");
+    const addItems = document.querySelector(".add-items");
+    dropdownButton.addEventListener("click", () => {
+      const style = window.getComputedStyle(addItems).display;
+      const dropDownIcon = document.querySelector(".dropdown-icon");
+      if (style === "none") {
+        addItems.style.display = "flex";
+        dropDownIcon.style.transform = "rotate(90deg)";
+      } else {
+        addItems.style.display = "none";
+        dropDownIcon.style.transform = "rotate(0deg)";
+      }
+    });
+
     const addItemToDatabase = document.querySelector("#add-item");
     const itemName = document.querySelector("#item-name");
     const itemPrice = document.querySelector("#item-price");

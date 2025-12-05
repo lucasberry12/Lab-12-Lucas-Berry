@@ -67,6 +67,7 @@ ul {
     border-spacing: 0;
     border-radius: 20px;
     overflow: hidden;
+    padding: 10px;
 
     th,
     td {
@@ -200,15 +201,45 @@ td .delete-button {
   }
 }
 
-.add-items {
-  display: flex;
-  flex-direction: column;
+.add-items-button {
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
+  margin: 20px;
+  padding: 10px;
+
+  .dropdown-icon {
+    background-image: url("../img/arrow-right.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+    transition: transform 0.3s ease;
+  }
+}
+
+.add-items-button:hover {
+  background-color: #cde8d9;
+  transform: scale(1.03);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.add-items-button:active {
+  background-color: #bde0c7;
+  transform: scale(0.98);
+}
+
+.add-items {
+  display: none;
+  align-items: center;
+  padding: 0 25px;
 
   .add-item-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 
     div {
       display: flex;
