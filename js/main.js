@@ -33,8 +33,9 @@ async function loadSearch() {
     });
 
     updateFavorites();
+    updateDelete(currentPage);
 
-    const addButtons = document.querySelectorAll("button[data-id]");
+    const addButtons = document.querySelectorAll(".add-to-cart-button");
     addButtons.forEach((button) => {
       button.addEventListener("click", async () => {
         const id = button.dataset.id;
@@ -53,6 +54,7 @@ async function loadSearch() {
             }),
           }
         );
+        loadPage(currentPage);
       });
     });
 
@@ -178,6 +180,7 @@ async function loadMain() {
     )}</div>`;
 
     updateFavorites();
+    updateDelete(currentPage);
 
     const checkboxes = document.querySelectorAll(".check-off");
     checkboxes.forEach((checkbox) => {
@@ -195,26 +198,6 @@ async function loadMain() {
             }),
           }
         );
-      });
-    });
-
-    const removeButtons = document.querySelectorAll("button");
-    removeButtons.forEach((button) => {
-      button.addEventListener("click", async () => {
-        const id = button.dataset.id;
-        await fetch(
-          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              num_in_cart: 0,
-            }),
-          }
-        );
-        loadPage(currentPage);
       });
     });
   } catch (error) {
@@ -242,6 +225,38 @@ async function updateFavorites() {
       if (currentPage === "favorites") {
         loadPage(currentPage);
       }
+    });
+  });
+}
+
+async function updateDelete(page) {
+  const removeButtons = document.querySelectorAll(".delete-button");
+  removeButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const id = button.dataset.id;
+      if (page === "search") {
+        await fetch(
+          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+      }
+      if (page === "main") {
+        await fetch(
+          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              num_in_cart: 0,
+            }),
+          }
+        );
+      }
+      loadPage(currentPage);
     });
   });
 }

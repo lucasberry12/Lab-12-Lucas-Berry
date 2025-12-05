@@ -163,6 +163,10 @@ ul {
         margin-right: 10px;
       }
 
+      .delete-button {
+        margin-right: 10px;
+      }
+
       .add-to-cart-button {
         background-image: url("../img/add-to-cart.svg");
         background-size: contain;
