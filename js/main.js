@@ -16,38 +16,23 @@ async function loadSearch() {
     data.map((item) => {
       const div = document.createElement("div");
       div.className = "grocery-item";
-      div.innerHTML = `<div>${item.name} <br /> $${
+      div.innerHTML = `<div class="item-info">${item.name} <br /> $${
         item.price
-      }</div><div class="add-to-cart"><input id="favorite-${
+      }</div><div class="item-configure"><button class="delete-button" data-id="${
+        item.id
+      }"></button><input id="favorite-${
         item.id
       }" class ="favorite" type="checkbox" data-id="${item.id}" ${
         item.favorite ? "checked" : ""
       }><label for="favorite-${
         item.id
-      }" class="heart-label"></label></div><input type="number" min="1" value="1"></input><button data-id="${
+      }" class="heart-label"></label><input type="number" min="1" value="1"></input><button class="add-to-cart-button"data-id="${
         item.id
-      }">Add to Cart</button></div>`;
+      }"></button></div></div>`;
       searchResults.appendChild(div);
     });
 
-    const favoriteCheck = document.querySelectorAll("input[data-id]");
-    favoriteCheck.forEach((checkbox) => {
-      checkbox.addEventListener("change", async () => {
-        const id = checkbox.dataset.id;
-        await fetch(
-          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              favorite: checkbox.checked,
-            }),
-          }
-        );
-      });
-    });
+    updateFavorites();
 
     const addButtons = document.querySelectorAll("button[data-id]");
     addButtons.forEach((button) => {
@@ -144,25 +129,7 @@ async function loadFavorites() {
       });
     });
 
-    const checkboxes = document.querySelectorAll("input[type=checkbox]");
-    checkboxes.forEach((checkbox) => {
-      checkbox.addEventListener("change", async () => {
-        const id = checkbox.dataset.id;
-        await fetch(
-          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              favorite: checkbox.checked,
-            }),
-          }
-        );
-        loadPage(currentPage);
-      });
-    });
+    updateFavorites();
   } catch (error) {
     console.error("Failed to fetch items:", error);
   }
@@ -190,38 +157,27 @@ async function loadMain() {
         item.name
       }</td><td>${item.num_in_cart}</td><td>$${
         item.price * item.num_in_cart
-      }</td><td><input class = "check-off" type="checkbox" data-id="${
+      }</td><td><input id="check-off-${
         item.id
-      }" ${
+      }" class = "check-off" type="checkbox" data-id="${item.id}" ${
         item.checked ? "checked" : ""
-      }></td><td><button class="delete-button" data-id="${
+      }><label for="check-off-${
+        item.id
+      }" class="check-label"></label></td><td><button class="delete-button" data-id="${
         item.id
       }"></button></td></tr>`;
     });
 
-    mainContent.innerHTML += `<div class="total-cost">Total Cost: ${itemsInCart.reduce(
+    const totalCost = itemsInCart.reduce(
       (acc, item) => acc + item.price * item.num_in_cart,
       0
+    );
+
+    mainContent.innerHTML += `<div class="total-cost"><img src="../img/cart-total.svg" alt="Total Cost">Total Cost: $${totalCost.toFixed(
+      2
     )}</div>`;
 
-    const favoriteCheck = document.querySelectorAll(".favorite");
-    favoriteCheck.forEach((checkbox) => {
-      checkbox.addEventListener("change", async () => {
-        const id = checkbox.dataset.id;
-        await fetch(
-          `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              favorite: checkbox.checked,
-            }),
-          }
-        );
-      });
-    });
+    updateFavorites();
 
     const checkboxes = document.querySelectorAll(".check-off");
     checkboxes.forEach((checkbox) => {
@@ -264,6 +220,30 @@ async function loadMain() {
   } catch (error) {
     console.error("Failed to fetch items:", error);
   }
+}
+
+async function updateFavorites() {
+  const favoriteButtons = document.querySelectorAll(".favorite");
+  favoriteButtons.forEach((checkbox) => {
+    checkbox.addEventListener("change", async () => {
+      const id = checkbox.dataset.id;
+      await fetch(
+        `https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            favorite: checkbox.checked,
+          }),
+        }
+      );
+      if (currentPage === "favorites") {
+        loadPage(currentPage);
+      }
+    });
+  });
 }
 
 async function loadPage(page) {

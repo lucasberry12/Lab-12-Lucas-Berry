@@ -70,22 +70,39 @@ ul {
       text-align: center;
     }
 
-    .delete-button {
-      background-image: url("../img/delete.svg");
+    .check-off {
+      display: none;
+    }
+
+    .check-label {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
       background-size: contain;
       background-repeat: no-repeat;
-      border: none;
-      width: 35px;
-      height: 35px;
       cursor: pointer;
-      background-color: transparent;
+      background-image: url("../img/checkbox-outlined.svg");
+    }
+
+    .check-off:checked + .check-label {
+      background-image: url("../img/checkbox-filled.svg");
+      transform: scale(1.2);
+      transition: transform 0.2s;
     }
   }
 
   .total-cost {
+    display: flex;
+    align-items: center;
     margin-top: 10px;
     text-align: center;
     font-weight: bold;
+
+    img {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+    }
   }
 }
 
@@ -109,6 +126,17 @@ ul {
   transition: transform 0.2s;
 }
 
+.delete-button {
+  background-image: url("../img/delete.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-color: transparent;
+}
+
 .results {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -120,11 +148,12 @@ ul {
     margin: 5px;
     align-items: center;
 
-    div {
-      width: 50%;
+    .item-info {
+      flex: 1;
     }
 
-    .add-to-cart {
+    .item-configure {
+      flex: 1;
       display: flex;
       justify-content: flex-end;
       margin-left: 10px;
@@ -132,6 +161,17 @@ ul {
 
       .heart-label {
         margin-right: 10px;
+      }
+
+      .add-to-cart-button {
+        background-image: url("../img/add-to-cart.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+        background-color: transparent;
       }
     }
   }
