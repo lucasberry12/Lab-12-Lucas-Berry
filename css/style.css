@@ -165,14 +165,18 @@ td .delete-button {
 
 .results {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 10px;
+  padding: 5px 15px;
 
   .grocery-item {
     display: flex;
     border: 1px solid black;
-    padding: 5px;
-    margin: 5px;
+    padding: 15px;
     align-items: center;
+    border-radius: 12px;
+    background-color: #e0f6e8;
 
     .item-info {
       flex: 1;
