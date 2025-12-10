@@ -262,3 +262,12 @@ input[type="number"] {
   width: 30px;
   margin-right: 10px;
 }
+
+input[type="search"] {
+  display: block;
+  width: 40%;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
