@@ -1,40 +1,27 @@
 const navOptions = document.querySelectorAll("nav ul li a");
 const main = document.querySelector("main");
 let currentPage = "main";
+let allItems = [];
 
 async function loadSearch() {
   try {
-    const searchResults = document.querySelector(".results");
-    searchResults.innerHTML = "";
     const response = await fetch(
       "https://plx7aejwka.execute-api.us-east-2.amazonaws.com/items"
     );
     const data = await response.json();
+    allItems = data;
 
     data.sort((a, b) => a.name.localeCompare(b.name));
+    renderItems(data);
 
-    data.map((item) => {
-      const div = document.createElement("div");
-      div.className = "grocery-item";
-      div.innerHTML = `<div class="item-info">${item.name} <br /> $${
-        item.price
-      }</div><div class="item-configure"><button class="delete-button" data-id="${
-        item.id
-      }"></button><input id="favorite-${
-        item.id
-      }" class ="favorite" type="checkbox" data-id="${item.id}" ${
-        item.favorite ? "checked" : ""
-      }><label for="favorite-${
-        item.id
-      }" class="heart-label"></label><input type="number" min="1" value="1"></input><button class="add-to-cart-button"data-id="${
-        item.id
-      }"></button></div></div>`;
-      searchResults.appendChild(div);
+    const searchInput = document.querySelector("input[type=search]");
+    searchInput.addEventListener("input", () => {
+      const searchTerm = searchInput.value.toLowerCase();
+      const filteredItems = allItems.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm)
+      );
+      renderItems(filteredItems);
     });
-
-    updateFavorites();
-    updateDelete(currentPage);
-    updateCart();
 
     const dropdownButton = document.querySelector(".add-items-button");
     const addItems = document.querySelector(".add-items");
@@ -255,6 +242,34 @@ async function updateCart() {
       );
     });
   });
+}
+
+function renderItems(items) {
+  const searchResults = document.querySelector(".results");
+  searchResults.innerHTML = "";
+
+  items.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "grocery-item";
+    div.innerHTML = `<div class="item-info">${item.name} <br /> $${
+      item.price
+    }</div><div class="item-configure"><button class="delete-button" data-id="${
+      item.id
+    }"></button><input id="favorite-${
+      item.id
+    }" class ="favorite" type="checkbox" data-id="${item.id}" ${
+      item.favorite ? "checked" : ""
+    }><label for="favorite-${
+      item.id
+    }" class="heart-label"></label><input type="number" min="1" value="1"></input><button class="add-to-cart-button"data-id="${
+      item.id
+    }"></button></div></div>`;
+    searchResults.appendChild(div);
+  });
+
+  updateFavorites();
+  updateDelete(currentPage);
+  updateCart();
 }
 
 async function loadPage(page) {
