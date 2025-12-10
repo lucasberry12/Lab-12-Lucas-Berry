@@ -80,6 +80,12 @@ ul {
       display: flex;
       align-items: center;
       justify-content: center;
+
+      input[type="number"] {
+        border: 1px solid black;
+        padding: 5px;
+        border-radius: 5px;
+      }
     }
 
     .check-off {
@@ -190,6 +196,12 @@ td .delete-button {
       margin-left: 10px;
       align-items: center;
 
+      input[type="number"] {
+        padding: 5px;
+        border: 1px solid black;
+        border-radius: 5px;
+      }
+
       .heart-label {
         margin-right: 10px;
       }
@@ -243,11 +255,18 @@ td .delete-button {
 
     div {
       display: flex;
+      align-items: center;
       margin: 5px;
 
       label {
         text-align: left;
         width: 100px;
+      }
+
+      input[type="text"] {
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 5px;
       }
     }
 
