@@ -100,7 +100,8 @@ ul {
     }
 
     .check-off {
-      display: none;
+      position: absolute;
+      opacity: 0;
     }
 
     .check-label {
@@ -112,6 +113,10 @@ ul {
       cursor: pointer;
       background-image: url("../img/checkbox-outlined.svg");
       transition: transform 0.2s;
+    }
+
+    .check-off:focus-visible + .check-label {
+      outline: auto;
     }
 
     .check-label:hover {
@@ -144,7 +149,8 @@ ul {
 }
 
 .favorite {
-  display: none;
+  position: absolute;
+  opacity: 0;
 }
 
 .heart-label {
@@ -156,6 +162,10 @@ ul {
   cursor: pointer;
   background-image: url("../img/heart-outline.svg");
   transition: transform 0.2s;
+}
+
+.favorite:focus-visible + .heart-label {
+  outline: auto;
 }
 
 .heart-label:hover {
@@ -263,6 +273,8 @@ td .delete-button {
 }
 
 .add-items-button {
+  background-color: unset;
+  border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
