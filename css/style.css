@@ -221,6 +221,11 @@ td .delete-button {
     align-items: center;
     border-radius: 12px;
     background-color: #e0f6e8;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
 
     .item-info {
       flex: 1;
