@@ -42,6 +42,22 @@ async function loadSearch() {
     const itemPrice = document.querySelector("#item-price");
     addItemToDatabase.addEventListener("click", async (e) => {
       e.preventDefault();
+
+      const nameValue = itemName.value.trim();
+      const priceValue = itemPrice.value.trim();
+
+      if (!nameValue) {
+        alert("Please enter an item name.");
+        itemName.focus();
+        return;
+      }
+
+      if (!priceValue || isNaN(priceValue) || Number(priceValue) <= 0) {
+        alert("Please enter a valid item price.");
+        itemPrice.focus();
+        return;
+      }
+
       data.sort((a, b) => a.id - b.id);
       const lastID = Number(data[data.length - 1].id);
       await fetch(

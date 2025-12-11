@@ -100,12 +100,20 @@ ul {
       background-repeat: no-repeat;
       cursor: pointer;
       background-image: url("../img/checkbox-outlined.svg");
+      transition: transform 0.2s;
+    }
+
+    .check-label:hover {
+      transform: scale(1.2);
     }
 
     .check-off:checked + .check-label {
       background-image: url("../img/checkbox-filled.svg");
       transform: scale(1.2);
-      transition: transform 0.2s;
+    }
+
+    .check-off:checked + .check-label:hover {
+      transform: scale(1.4);
     }
   }
 
@@ -136,12 +144,20 @@ ul {
   background-repeat: no-repeat;
   cursor: pointer;
   background-image: url("../img/heart-outline.svg");
+  transition: transform 0.2s;
+}
+
+.heart-label:hover {
+  transform: scale(1.2);
 }
 
 .favorite:checked + .heart-label {
   background-image: url("../img/heart-filled.svg");
   transform: scale(1.2);
-  transition: transform 0.2s;
+}
+
+.favorite:checked + .heart-label:hover {
+  transform: scale(1.4);
 }
 
 .delete-button {
@@ -153,6 +169,11 @@ ul {
   height: 35px;
   cursor: pointer;
   background-color: transparent;
+}
+
+.delete-button:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s;
 }
 
 td .delete-button {
@@ -168,6 +189,11 @@ td .delete-button {
   height: 35px;
   cursor: pointer;
   background-color: transparent;
+}
+
+.add-to-cart-button:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s;
 }
 
 .results {
@@ -252,6 +278,7 @@ td .delete-button {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-bottom: 50px;
 
     div {
       display: flex;
@@ -267,12 +294,33 @@ td .delete-button {
         border: 1px solid black;
         border-radius: 5px;
         padding: 5px;
+
+        &:focus {
+          outline: 1px solid black;
+        }
       }
     }
 
     button {
       margin-top: 10px;
       align-self: flex-end;
+      background-image: url("../img/add-item-button-icon.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      border: none;
+      width: 35px;
+      height: 35px;
+      cursor: pointer;
+      background-color: transparent;
+      transition: transform 0.1s ease;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+    }
+
+    button:active {
+      transform: scale(0.85);
     }
   }
 }
@@ -289,4 +337,22 @@ input[type="search"] {
   padding: 10px;
   border: 1px solid black;
   border-radius: 5px;
+  margin-bottom: 10px;
+
+  &:focus {
+    outline: 1px solid black;
+  }
+
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    background-image: url("../img/search-clear-icon.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
 }
