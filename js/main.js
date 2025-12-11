@@ -102,7 +102,7 @@ async function loadFavorites() {
     const favorites = data.filter((item) => item.favorite);
 
     favorites.map((item) => {
-      tbody.innerHTML += `<tr><td>${item.name}</td><td>$${item.price}</td><td><div class="add-to-cart-container"><input type="number" min="1" value="1"></input><button class="add-to-cart-button" data-id="${item.id}"></button></div></td><td><input id="favorite-${item.id}" class ="favorite" type="checkbox" data-id="${item.id}" checked><label for="favorite-${item.id}" class="heart-label"></label></td></tr>`;
+      tbody.innerHTML += `<tr><td>${item.name}</td><td>$${item.price}</td><td><div class="add-to-cart-container"><input type="number" min="1" value="1" aria-label="Quantity of ${item.name} to add to cart"></input><button class="add-to-cart-button" data-id="${item.id}" aria-label="Add ${item.name} to cart"></button></div></td><td><input id="favorite-${item.id}" class ="favorite" type="checkbox" data-id="${item.id}" aria-label="Remove ${item.name} from favorites" checked><label for="favorite-${item.id}" class="heart-label"></label></td></tr>`;
     });
 
     updateCart();
@@ -130,19 +130,21 @@ async function loadMain() {
         item.id
       }" class ="favorite" type="checkbox" data-id="${item.id}" ${
         item.favorite ? "checked" : ""
-      }><label for="favorite-${item.id}" class="heart-label"></label></td><td>${
-        item.name
-      }</td><td>${item.num_in_cart}</td><td>$${(
-        item.price * item.num_in_cart
-      ).toFixed(2)}</td><td><input id="check-off-${
+      } aria-label="Mark ${item.name} as favorite"><label for="favorite-${
+        item.id
+      }" class="heart-label"></label></td><td>${item.name}</td><td>${
+        item.num_in_cart
+      }</td><td>$${(item.price * item.num_in_cart).toFixed(
+        2
+      )}</td><td><input id="check-off-${
         item.id
       }" class = "check-off" type="checkbox" data-id="${item.id}" ${
         item.checked ? "checked" : ""
-      }><label for="check-off-${
+      } aria-label="Mark ${item.name} as checked"><label for="check-off-${
         item.id
       }" class="check-label"></label></td><td><button class="delete-button" data-id="${
         item.id
-      }"></button></td></tr>`;
+      }" aria-label="Remove ${item.name} from cart"></button></td></tr>`;
     });
 
     const totalCost = itemsInCart.reduce(
@@ -278,15 +280,19 @@ function renderItems(items) {
       item.price
     }</div><div class="item-configure"><button class="delete-button" data-id="${
       item.id
-    }"></button><input id="favorite-${
+    }" aria-label="Remove ${
+      item.name
+    } from grocery database"></button><input id="favorite-${
       item.id
     }" class ="favorite" type="checkbox" data-id="${item.id}" ${
       item.favorite ? "checked" : ""
-    }><label for="favorite-${
+    } aria-label="Favorite ${item.name}"><label for="favorite-${
       item.id
-    }" class="heart-label"></label><input type="number" min="1" value="1"></input><button class="add-to-cart-button"data-id="${
+    }" class="heart-label"></label><input type="number" min="1" value="1" aria-label="Quantity of ${
+      item.name
+    } to add to cart"></input><button class="add-to-cart-button"data-id="${
       item.id
-    }"></button></div></div>`;
+    }" aria-label="Add ${item.name} to cart"></button></div></div>`;
     searchResults.appendChild(div);
   });
 
