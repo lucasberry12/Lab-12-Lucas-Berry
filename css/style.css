@@ -35,6 +35,7 @@ ul {
   font-family: "Poppins", sans-serif;
   font-size: 15px;
   background-color: #d9f0e2;
+  padding: 0;
 
   li {
     flex: 1;
@@ -47,9 +48,19 @@ ul {
     border-right: none;
   }
 
+  li:hover {
+    background-color: #bde0c7;
+
+    a {
+      transform: scale(1.1);
+    }
+  }
+
   a {
     text-decoration: none;
     color: black;
+    transition: transform 0.2s ease, font-size 0.2s ease;
+    display: block;
   }
 }
 
