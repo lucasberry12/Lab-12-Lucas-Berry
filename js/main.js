@@ -262,7 +262,14 @@ async function updateCart() {
 
 function renderItems(items) {
   const searchResults = document.querySelector(".results");
+  const noResults = document.querySelector(".no-results");
   searchResults.innerHTML = "";
+
+  if (items.length === 0) {
+    noResults.style.display = "block";
+  } else {
+    noResults.style.display = "none";
+  }
 
   items.forEach((item) => {
     const div = document.createElement("div");

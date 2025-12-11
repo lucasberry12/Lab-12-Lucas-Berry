@@ -239,6 +239,13 @@ td .delete-button {
   }
 }
 
+.no-results {
+  display: none;
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+}
+
 .add-items-button {
   cursor: pointer;
   display: inline-flex;
