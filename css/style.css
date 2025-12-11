@@ -61,6 +61,10 @@ ul {
     color: black;
     transition: transform 0.2s ease, font-size 0.2s ease;
     display: block;
+
+    &:focus-visible {
+      outline: 2px solid black;
+    }
   }
 }
 
@@ -96,6 +100,10 @@ ul {
         border: 1px solid black;
         padding: 5px;
         border-radius: 5px;
+
+        &:focus {
+          outline: 2px solid black;
+        }
       }
     }
 
@@ -116,7 +124,7 @@ ul {
     }
 
     .check-off:focus-visible + .check-label {
-      outline: auto;
+      outline: 2px solid black;
     }
 
     .check-label:hover {
@@ -165,7 +173,7 @@ ul {
 }
 
 .favorite:focus-visible + .heart-label {
-  outline: auto;
+  outline: 2px solid black;
 }
 
 .heart-label:hover {
@@ -190,6 +198,10 @@ ul {
   height: 35px;
   cursor: pointer;
   background-color: transparent;
+
+  &:focus-visible {
+    outline: 2px solid black;
+  }
 }
 
 .delete-button:hover {
@@ -210,6 +222,10 @@ td .delete-button {
   height: 35px;
   cursor: pointer;
   background-color: transparent;
+
+  &:focus-visible {
+    outline: 2px solid black;
+  }
 }
 
 .add-to-cart-button:hover {
@@ -252,6 +268,10 @@ td .delete-button {
         padding: 5px;
         border: 1px solid black;
         border-radius: 5px;
+
+        &:focus {
+          outline: 2px solid black;
+        }
       }
 
       .heart-label {
@@ -290,6 +310,10 @@ td .delete-button {
     height: 35px;
     background-color: transparent;
     transition: transform 0.3s ease;
+  }
+
+  &:focus-visible {
+    outline: 2px solid black;
   }
 }
 
@@ -331,7 +355,7 @@ td .delete-button {
         padding: 5px;
 
         &:focus {
-          outline: 1px solid black;
+          outline: 2px solid black;
         }
       }
     }
@@ -348,6 +372,10 @@ td .delete-button {
       cursor: pointer;
       background-color: transparent;
       transition: transform 0.1s ease;
+
+      &:focus-visible {
+        outline: 2px solid black;
+      }
     }
 
     button:hover {
@@ -375,7 +403,7 @@ input[type="search"] {
   margin-bottom: 10px;
 
   &:focus {
-    outline: 1px solid black;
+    outline: 2px solid black;
   }
 
   &::-webkit-search-cancel-button {
